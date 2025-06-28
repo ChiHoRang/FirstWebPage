@@ -1,12 +1,40 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>I love you Indira</title>
+  <style>
+    table { margin: 0 auto; }
+  </style>
 </head>
 <body style="text-align: center; margin: 50px;">
+  <!-- ❤️ 메인 이미지 -->
   <img src="{{ url_for('static', filename='images/MainPage.png') }}"
        alt="Love Image"
        style="max-width: 80%; height: auto; border-radius: 8px;">
+
+  <!-- 📅 연간 달력 -->
+  <h1>📅 My Calendar for {{ now.year }}</h1>
+  {{ calendar|safe }}
+
+  <!-- ✏️ 일정 추가 -->
+  <h2>일정 추가</h2>
+  <form method="POST">
+    <input type="date" name="date" required>
+    <input type="text" name="event" placeholder="Event" required>
+    <button type="submit">Add</button>
+  </form>
+
+  <!-- ✅ 저장된 일정 보여주기 -->
+  <h2>저장된 일정</h2>
+  {% if events %}
+    <ul style="list-style: none;">
+      {% for date, event in events %}
+        <li><strong>{{ date }}</strong> - {{ event }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>아직 저장된 일정이 없습니다.</p>
+  {% endif %}
 </body>
 </html>
