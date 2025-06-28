@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Password</title>
+</head>
+<body style="text-align: center; margin-top: 100px;">
+  <h1>Ender the password here!</h1>
+
+  {% if error %}
+    <p style="color: red;">{{ error }}</p>
+  {% endif %}
+
+  <form method="POST">
+    <input type="password" name="password" maxlength="6" required>
+    <button type="submit">확인</button>
+  </form>
+</body>
+</html>
