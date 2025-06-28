@@ -13,8 +13,16 @@
        alt="Love Image"
        style="max-width: 80%; height: auto; border-radius: 8px;">
 
-  <!-- 📅 Yearly Calendar -->
-  <h1>📅 Calendar for {{ now.year }}</h1>
+  <!-- 📅 Month Calendar -->
+  <h1>📅 Calendar: {{ year }} / {{ month }}</h1>
+
+  <!-- 이전/다음 버튼 -->
+  <div>
+    <a href="{{ url_for('success', year=prev_year, month=prev_month) }}">◀ Previous Month</a>
+    &nbsp; | &nbsp;
+    <a href="{{ url_for('success', year=next_year, month=next_month) }}">Next Month ▶</a>
+  </div>
+
   {{ calendar|safe }}
 
   <!-- ✏️ Add New Event -->
