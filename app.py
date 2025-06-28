@@ -4,16 +4,11 @@ from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
 
 app = Flask(__name__)
-
 MY_PASSWORD = "230915"
 
 def get_calendar(year, events):
-    """
-    기본 연간 달력 생성 + 각 날짜에 일정 있는 날짜만 표시용 딕셔너리 반환
-    """
     cal = calendar.HTMLCalendar(calendar.MONDAY)
-    cal_html = cal.formatyear(year)
-    return cal_html
+    return cal.formatyear(year)
 
 def get_events():
     conn = sqlite3.connect('db.sqlite3')
@@ -22,7 +17,7 @@ def get_events():
                  (id INTEGER PRIMARY KEY AUTOINCREMENT,
                   date TEXT,
                   event TEXT)''')
-    c.execute('SELECT date, event FROM events ORDER BY date')
+    c.execute('SELECT id, date, event FROM events ORDER BY date')
     events = c.fetchall()
     conn.close()
     return events
@@ -54,6 +49,15 @@ def success():
     events = get_events()
     cal_html = get_calendar(year, events)
     return render_template('success.html', calendar=cal_html, events=events, now=now)
+
+@app.route('/delete/<int:event_id>')
+def delete_event(event_id):
+    conn = sqlite3.connect('db.sqlite3')
+    c = conn.cursor()
+    c.execute('DELETE FROM events WHERE id = ?', (event_id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('success'))
 
 if __name__ == '__main__':
     app.run(debug=True)
